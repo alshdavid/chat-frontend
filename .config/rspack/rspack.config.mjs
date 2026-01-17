@@ -25,6 +25,7 @@ export default defineConfig({
     chunkLoading: "import",
     workerChunkLoading: "import",
   },
+  source: {},
   resolve: {
     extensions: ["...", ".ts", ".tsx", ".jsx"],
     extensionAlias: {
@@ -63,12 +64,15 @@ export default defineConfig({
               parser: {
                 syntax: "typescript",
                 tsx: true,
+                decorators: true
               },
               transform: {
                 react: {
                   pragma: "h",
                   pragmaFrag: "Fragment",
                 },
+                "decoratorVersion": "2022-03",
+                "decoratorMetadata": true
               },
             },
           },

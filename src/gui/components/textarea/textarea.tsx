@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect } from 'preact/hooks';
-import { h } from 'preact';
-import './textarea.css';
+import { useState, useRef, useEffect } from "preact/hooks";
+import { h } from "preact";
+import "./textarea.css";
 
 export type TextareaProps = {
   onChange?: (value: string) => void;
@@ -13,7 +13,15 @@ export type TextareaProps = {
 };
 
 export const Textarea = (props: TextareaProps) => {
-  const { onChange, onSubmit, value, defaultValue = '', placeholder = '', className = '', disabled = false } = props;
+  const {
+    onChange,
+    onSubmit,
+    value,
+    defaultValue = "",
+    placeholder = "",
+    className = "",
+    disabled = false,
+  } = props;
   const [isFocused, setIsFocused] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const isComposingRef = useRef(false);
@@ -21,21 +29,29 @@ export const Textarea = (props: TextareaProps) => {
 
   // Update content when value prop changes (controlled mode)
   useEffect(() => {
-    if (isControlled && contentRef.current && contentRef.current.textContent !== value) {
+    if (
+      isControlled &&
+      contentRef.current &&
+      contentRef.current.textContent !== value
+    ) {
       contentRef.current.textContent = value;
     }
   }, [value, isControlled]);
 
   // Set initial content (uncontrolled mode)
   useEffect(() => {
-    if (!isControlled && contentRef.current && !contentRef.current.textContent) {
+    if (
+      !isControlled &&
+      contentRef.current &&
+      !contentRef.current.textContent
+    ) {
       contentRef.current.textContent = defaultValue;
     }
   }, [defaultValue, isControlled]);
 
   const handleInput = () => {
     if (contentRef.current && onChange && !isComposingRef.current) {
-      onChange(contentRef.current.textContent || '');
+      onChange(contentRef.current.textContent || "");
     }
   };
 
@@ -52,7 +68,7 @@ export const Textarea = (props: TextareaProps) => {
     // Check if Enter is pressed without Ctrl, Cmd, Shift, or Alt
     // and not during IME composition
     if (
-      e.key === 'Enter' &&
+      e.key === "Enter" &&
       !e.ctrlKey &&
       !e.metaKey &&
       !e.shiftKey &&
@@ -61,20 +77,20 @@ export const Textarea = (props: TextareaProps) => {
       onSubmit
     ) {
       e.preventDefault();
-      const currentValue = contentRef.current?.textContent || '';
+      const currentValue = contentRef.current?.textContent || "";
       onSubmit(currentValue);
     }
   };
 
-  const displayValue = isControlled ? value : contentRef.current?.textContent || '';
+  const displayValue = isControlled
+    ? value
+    : contentRef.current?.textContent || "";
   const showPlaceholder = !isFocused && !displayValue;
 
   return (
     <div className={`textarea-component textarea-container ${className}`}>
       {showPlaceholder && (
-        <div className="textarea-placeholder">
-          {placeholder}
-        </div>
+        <div className="textarea-placeholder">{placeholder}</div>
       )}
       <div
         ref={contentRef}
@@ -85,7 +101,7 @@ export const Textarea = (props: TextareaProps) => {
         onCompositionEnd={handleCompositionEnd}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
-        className={`textarea-editable ${disabled ? 'textarea-disabled' : ''}`}
+        className={`textarea-editable ${disabled ? "textarea-disabled" : ""}`}
         // suppressContentEditableWarning
       />
     </div>

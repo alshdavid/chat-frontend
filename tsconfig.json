@@ -6,6 +6,8 @@
     "lib": ["DOM", "ESNext"],
     "strict": true,
     "noEmit": true,
+    "experimentalDecorators": false,
+    "useDefineForClassFields": true,
     "allowImportingTsExtensions": true,
     "jsx": "react",
     "jsxFactory": "h",

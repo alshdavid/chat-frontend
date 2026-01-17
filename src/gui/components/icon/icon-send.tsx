@@ -1,12 +1,16 @@
 import { h } from "preact";
+import type { SVGAttributes } from "preact";
 
-export function IconSend() {
+export type IconSendProps = Omit<SVGAttributes<SVGSVGElement>, "children"> & {};
+
+export function IconSend(props: IconSendProps) {
   return (
     <svg
       className="icon icon-send"
       viewBox="0 0 576 512"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...props}
     >
       <g>
         <path
