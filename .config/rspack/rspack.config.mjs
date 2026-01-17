@@ -5,6 +5,9 @@ import { rspack } from "@rspack/core";
 import { DeleteDirectoryPlugin } from "./delete-directory-plugin.mjs";
 import { HtmlPlugin } from "./html-plugin.mjs";
 
+const baseHref = process.env.BASE_HREF || '/';
+console.log('BUILDING WITH BASE_HREF OF', baseHref)
+
 const dirname = path.dirname(url.fileURLToPath(import.meta.url));
 const root = path.dirname(path.dirname(dirname));
 
@@ -20,6 +23,7 @@ export default defineConfig({
   output: {
     filename: "[name].[contenthash].js",
     path: path.join(root, "dist"),
+    publicPath: baseHref,
     module: true,
     chunkFormat: "module",
     chunkLoading: "import",
@@ -95,14 +99,19 @@ export default defineConfig({
       filename: "index.html",
       template: "src/gui/index.html",
       inject: "head",
-      baseHref: process.env.BASE_HREF,
+      baseHref,
+    }),
+    new rspack.DefinePlugin({
+      BASE_HREF: JSON.stringify(baseHref)
     }),
     new rspack.CssExtractRspackPlugin({}),
   ],
   devServer: {
     hot: false,
     port: 4200,
-    historyApiFallback: true,
+    historyApiFallback: {
+      index: `${baseHref}/index.html`
+    },
     allowedHosts: "all",
     host: "0.0.0.0",
     headers: [

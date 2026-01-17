@@ -1,4 +1,4 @@
-export const ON_CHANGE = Symbol("Reactive");
+import { ON_CHANGE } from "./symbol.ts";
 
 /**
  * @description This decorator dispatches a notification when a property is replaced
