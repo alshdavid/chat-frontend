@@ -1,0 +1,138 @@
+@import "../css/colors.css";
+@import "../css/spacing.css";
+@import "../css/common.css";
+@import "../css/typography.css";
+
+html {
+  height: 100dvh;
+  background-color: var(--color-black);
+  color: var(--color-white);
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+* {
+  box-sizing: content-box;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-2);
+  height: 40px;
+
+  .icon {
+    height: 24px;
+
+    * {
+      fill: var(--color-light-blue-700);
+    }
+  }
+}
+
+.chat-body {
+  flex: 1;
+  padding: var(--spacing-2);
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .chat-bubble {
+    display: flex;
+    margin-bottom: var(--spacing-1);
+
+    &.self {
+      justify-content: flex-end;
+    }
+
+    &.peer {
+      justify-content: flex-start;
+    }
+
+    article {
+      border-radius: 20px;
+      padding: var(--spacing-2) var(--spacing-3);
+    }
+
+    &.self article {
+      background-color: var(--color-light-blue-700);
+    }
+
+    &.peer article {
+      background-color: var(--color-grey-700);
+    }
+
+    &.peer:has(+ .chat-bubble.peer):not(.chat-bubble.peer + .chat-bubble.peer)
+      article {
+      border-bottom-left-radius: 4px;
+    }
+
+    &.peer.chat-bubble.peer
+      + .chat-bubble.peer:has(+ .chat-bubble.peer)
+      article {
+      border-top-left-radius: 4px;
+      border-bottom-left-radius: 4px;
+    }
+
+    &.peer.chat-bubble.peer
+      + .chat-bubble.peer:not(:has(+ .chat-bubble.peer))
+      article {
+      border-top-left-radius: 4px;
+    }
+
+    &.self:has(+ .chat-bubble.self):not(.chat-bubble.self + .chat-bubble.self)
+      article {
+      border-bottom-right-radius: 4px;
+    }
+
+    &.self.chat-bubble.self
+      + .chat-bubble.self:has(+ .chat-bubble.self)
+      article {
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px;
+    }
+
+    &.self.chat-bubble.self
+      + .chat-bubble.self:not(:has(+ .chat-bubble.self))
+      article {
+      border-top-right-radius: 4px;
+    }
+  }
+}
+
+.chat-entry {
+  padding: var(--spacing-2);
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+
+  .textarea-component {
+    flex: 1;
+  }
+
+  .icon {
+    height: 24px;
+
+    * {
+      fill: var(--color-light-blue-700);
+    }
+  }
+}
+
+button {
+  background-color: transparent;
+  padding: 0 0 3px var(--spacing-2);
+  border: none;
+}

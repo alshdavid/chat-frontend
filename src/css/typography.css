@@ -1,0 +1,155 @@
+@import "./spacing.css";
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a {
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+}
+
+h1 {
+  font-size: 28px;
+  line-height: 32px;
+  margin-bottom: var(--spacing-7);
+}
+
+@media (min-width: 1280px) {
+  h1 {
+    font-size: 30px;
+    line-height: 34px;
+    margin-bottom: var(--spacing-11);
+  }
+}
+
+h2 {
+  font-size: 26px;
+  line-height: 30px;
+  margin-bottom: var(--spacing-6);
+}
+
+@media (min-width: 1280px) {
+  h2 {
+    font-size: 28px;
+    line-height: 32px;
+  }
+}
+
+h3 {
+  font-size: 24px;
+  line-height: 28px;
+  margin-bottom: var(--spacing-8);
+}
+
+@media (min-width: 1280px) {
+  h3 {
+    font-size: 26px;
+    line-height: 30px;
+    margin-bottom: var(--spacing-10);
+  }
+}
+
+h4 {
+  font-size: 22px;
+  line-height: 26px;
+  margin-bottom: var(--spacing-7);
+}
+
+@media (min-width: 1280px) {
+  h4 {
+    font-size: 24px;
+    line-height: 28px;
+    margin-bottom: var(--spacing-9);
+  }
+}
+
+h5 {
+  font-size: 20px;
+  line-height: 22px;
+  margin-bottom: var(--spacing-6);
+}
+
+@media (min-width: 1280px) {
+  h5 {
+    font-size: 22px;
+    line-height: 26px;
+    margin-bottom: var(--spacing-8);
+  }
+}
+
+h6 {
+  font-size: 18px;
+  line-height: 20px;
+  margin-bottom: var(--spacing-5);
+}
+@media (min-width: 1280px) {
+  h6 {
+    font-size: 20px;
+    line-height: 24px;
+    margin-bottom: var(--spacing-7);
+  }
+}
+
+a {
+  color: var(--color-link);
+  text-decoration: underline;
+}
+
+p,
+a,
+label,
+li {
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 400;
+  margin-bottom: var(--spacing-5);
+}
+@media (min-width: 1280px) {
+  p,
+  a,
+  label,
+  li {
+    font-size: 16px;
+    line-height: 22px;
+    margin-bottom: var(--spacing-7);
+  }
+}
+
+label {
+  display: block;
+}
+
+em {
+  font-size: inherit;
+  font-weight: 600;
+}
+
+ul {
+  padding-left: var(--spacing-3);
+}
+
+li {
+  position: relative;
+  display: block;
+  padding-left: var(--spacing-3);
+}
+
+li:after {
+  content: "\2022";
+  position: absolute;
+  top: 0;
+  left: 0;
+}
