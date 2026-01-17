@@ -97,13 +97,7 @@ export default defineConfig({
     new HtmlPlugin({
       minify: false,
       filename: "index.html",
-      template: "src/gui/index.html",
-      inject: "head",
-      baseHref,
-    }),
-    new HtmlPlugin({
-      minify: false,
-      filename: "404.html",
+      spaFallback: "404.html",
       template: "src/gui/index.html",
       inject: "head",
       baseHref,

@@ -4,6 +4,13 @@ import prettier from "prettier";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 
 export class HtmlPlugin extends HtmlWebpackPlugin {
+  #spaFallback;
+
+  constructor(options) {
+    super(options);
+    this.#spaFallback = options.spaFallback;
+  }
+
   apply(compiler) {
     super.apply(compiler);
 
@@ -103,6 +110,13 @@ export class HtmlPlugin extends HtmlWebpackPlugin {
         parser: "html",
       });
       await fs.promises.writeFile(asset, formatted, "utf8");
+      if (this.#spaFallback) {
+        await fs.promises.writeFile(
+          path.join(compiler.options.output.path, this.#spaFallback),
+          formatted,
+          "utf8",
+        );
+      }
       callback();
     });
   }
