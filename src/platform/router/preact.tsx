@@ -21,7 +21,6 @@ export const useRouter = () => useContext(RouterContext)
 export class PreactRouter extends Router {
   #root: HTMLElement;
   #providers: Array<VNode>;
-  #windowRef: Window
 
   constructor({
     root: target,
@@ -31,13 +30,11 @@ export class PreactRouter extends Router {
     super(routerOptions);
     this.#root = target;
     this.#providers = providers;
-    // @ts-expect-error
-    this.#windowRef = globalThis
   }
 
   mount(path: string, element: (props: { req: Req }) => ComponentChild) {
     return this.route(path, (req) => {
-      this.#windowRef.document.body.setAttribute('data-route', req.routePattern)
+      this.#root.setAttribute('data-route', req.routePattern)
       render(null, this.#root);
 
       render(

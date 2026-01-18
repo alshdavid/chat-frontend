@@ -27,6 +27,14 @@ export class Router {
     }
   }
 
+  routes(): Readonly<Record<string, HandlerFunc>> {
+    const obj: Record<string, HandlerFunc> = {}
+    for (const [k, v] of this.#routes.entries()) {
+      obj[k] = v
+    }
+    return (obj)
+  }
+
   start() {
     this.#digest()
   }
@@ -42,20 +50,20 @@ export class Router {
   // route(paths: string[], handler: HandlerFunc): Router
   // route(path: string, handler: HandlerFunc<T>): Router
   route(path: string, handler: HandlerFunc): Router {
-    const normalizedPath = normalizePathname(this.#baseHref, path)
+    const [,normalizedPath] = normalizePathname(this.#baseHref, path)
     this.#routes.set(normalizedPath, handler)
     return this
   }
 
   navigate(path: string) {
-    const normalizedPathname = normalizePathname(this.#baseHref, path);
-    window.history.pushState(null, document.title, normalizedPathname);
+    const [,normalizedPath] = normalizePathname(this.#baseHref, path);
+    window.history.pushState(null, document.title, normalizedPath);
     this.#digest()
   }
 
   replace(path: string) {
-    const normalizedPathname = normalizePathname(this.#baseHref, path);
-    window.history.replaceState(null, document.title, normalizedPathname);
+    const [,normalizedPath] = normalizePathname(this.#baseHref, path);
+    window.history.replaceState(null, document.title, normalizedPath);
     this.#digest()
   }
 
@@ -70,7 +78,7 @@ export class Router {
   }
 
   #digest() {
-    let normalizedPath = normalizePathname(this.#baseHref, globalThis.location.pathname)
+    const [,normalizedPath] = normalizePathname(this.#baseHref, globalThis.location.pathname)
     const [handler, params, pattern] = this.#matchRoute(normalizedPath)
     if (!handler || !pattern) {
       return
@@ -90,7 +98,7 @@ export class Router {
       return [route, {}, pathname]
     }
     for (const [pattern, handler] of this.#routes.entries()) {
-      const result = matchPath(pattern, pathname)
+      const result = matchPath(this.#baseHref, pattern, pathname)
       if (result) {
         return [handler, result, pattern]
       }
