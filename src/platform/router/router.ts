@@ -25,7 +25,6 @@ export class Router {
     } else {
       this.#baseHref = baseHref || '/'
     }
-    console.log({ b: this.#baseHref})
   }
 
   start() {
@@ -71,13 +70,13 @@ export class Router {
   }
 
   #digest() {
-    let normalizedPath = normalizePathname(globalThis.location.pathname)
-    const [handler, params] = this.#matchRoute(normalizedPath)
-    if (!handler) {
+    let normalizedPath = normalizePathname(this.#baseHref, globalThis.location.pathname)
+    const [handler, params, pattern] = this.#matchRoute(normalizedPath)
+    if (!handler || !pattern) {
       return
     }
     const req = {
-      routePattern: "",
+      routePattern: pattern,
       url: new URL(globalThis.location.href),
       params: params || {},
     }
@@ -85,16 +84,15 @@ export class Router {
     handler(req)
   }
 
-  #matchRoute(pathname: string): [HandlerFunc?, Record<string, string>?] {
-    console.log({pathname})
-    console.log(this.#routes)
-    if (this.#routes.has(pathname)) {
-      return [this.#routes.get(pathname)!, {}]
+  #matchRoute(pathname: string): [HandlerFunc?, Record<string, string>?, string?] {
+    const route = this.#routes.get(pathname);
+    if (route) {
+      return [route, {}, pathname]
     }
     for (const [pattern, handler] of this.#routes.entries()) {
       const result = matchPath(pattern, pathname)
       if (result) {
-        return [handler, result]
+        return [handler, result, pattern]
       }
     }
     return []

@@ -1,23 +1,19 @@
+import "./styles.css"
 import { h } from 'preact'
 import { PreactRouter } from '../platform/router/preact.tsx'
 import { AUTO_BASE_HREF } from '../platform/router/router.ts'
+import { HomePage } from "./pages/home/home-page.tsx"
+import { ChatPage } from "./pages/chat/chat-page.tsx"
+import { NotFoundPage } from "./pages/not-found/not-found-page.tsx"
 
 const app = new PreactRouter({ 
   root: document.body,
   baseHref: AUTO_BASE_HREF 
 })
 
-app.mount('/', ({ req }) => {
-  return function() {
-    return <div>Home Page</div>
-  }
-})
-
-app.route('/foo', () => {
-  return function() {
-    return <div>Foo Page</div>
-  }
-})
+app.mount('/', () => <HomePage />)
+app.mount('/chat/:id', () => <ChatPage />)
+app.mount('/**', () => <NotFoundPage />)
 
 app.start()
 

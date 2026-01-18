@@ -1,32 +1,50 @@
-import { cloneElement, ComponentChild, h, render, type VNode } from "preact";
+import {
+  cloneElement,
+  ComponentChild,
+  h,
+  render,
+  type VNode,
+  createContext,
+} from "preact";
 import { Req, Router, RouterOptions } from "./router.ts";
-import { useEffect, useState } from "preact/hooks";
+import { useContext, useEffect, useState } from "preact/hooks";
 
 export type PreactRouterOptions = RouterOptions & {
   root: HTMLElement;
   providers?: Array<VNode>;
 };
 
+// @ts-expect-error
+export const RouterContext = createContext<PreactRouter>(null);
+export const useRouter = () => useContext(RouterContext)
+
 export class PreactRouter extends Router {
   #root: HTMLElement;
   #providers: Array<VNode>;
+  #windowRef: Window
 
-  constructor({ root: target, providers = [], ...routerOptions }: PreactRouterOptions) {
+  constructor({
+    root: target,
+    providers = [],
+    ...routerOptions
+  }: PreactRouterOptions) {
     super(routerOptions);
     this.#root = target;
     this.#providers = providers;
+    // @ts-expect-error
+    this.#windowRef = globalThis
   }
 
   mount(path: string, element: (props: { req: Req }) => ComponentChild) {
     return this.route(path, (req) => {
-      render(
-        null,
-        this.#root
-      );
+      this.#windowRef.document.body.setAttribute('data-route', req.routePattern)
+      render(null, this.#root);
 
       render(
-        <App req={req} inner={element} providers={this.#providers} />,
-        this.#root
+        <RouterContext.Provider value={this}>
+          <App req={req} inner={element} providers={this.#providers} />
+        </RouterContext.Provider>,
+        this.#root,
       );
     });
   }
@@ -48,7 +66,7 @@ function App({
       const element = await inner({ req });
       const wrapped = providers.reduceRight<ComponentChild>(
         (acc, wrapper) => cloneElement(wrapper, {}, acc),
-        element
+        element,
       );
       setElement(wrapped);
     })();

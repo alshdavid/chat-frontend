@@ -110,9 +110,7 @@ export default defineConfig({
   devServer: {
     hot: false,
     port: 4200,
-    historyApiFallback: {
-      index: `${baseHref}/index.html`
-    },
+    historyApiFallback: true,
     allowedHosts: "all",
     host: "0.0.0.0",
     headers: [
