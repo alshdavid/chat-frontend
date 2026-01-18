@@ -9,6 +9,8 @@
     "experimentalDecorators": false,
     "useDefineForClassFields": true,
     "allowImportingTsExtensions": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
     "jsx": "react",
     "jsxFactory": "h",
     "types": [

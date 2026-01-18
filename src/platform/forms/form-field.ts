@@ -20,8 +20,7 @@ export class FormField<T> extends EventTarget {
     );
   };
 
-  update = (value?: T) => {
-    if (!value) return;
+  update = (value: T) => {
     if (this.#value === value) {
       return;
     }

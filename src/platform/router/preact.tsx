@@ -1,5 +1,4 @@
 import {
-  cloneElement,
   ComponentChild,
   h,
   render,
@@ -9,7 +8,7 @@ import {
   ComponentType,
 } from "preact";
 import { Req, Router, RouterOptions } from "./router.ts";
-import { useContext, useEffect, useState } from "preact/hooks";
+import { useContext } from "preact/hooks";
 
 export type PreactRouterOptions = RouterOptions & {
   root: HTMLElement;

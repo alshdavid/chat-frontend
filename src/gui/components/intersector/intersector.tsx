@@ -68,16 +68,7 @@ export function Intersector({
     observer.observe(containerRef.current);
 
     return () => observer.disconnect();
-  }, [
-    containerRef,
-    onEnter,
-    onExit,
-    children,
-    rootMargin,
-    threshold,
-    root,
-    className,
-  ]);
+  }, [containerRef, rootMargin, threshold, root]);
 
   return (
     <div

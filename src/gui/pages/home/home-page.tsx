@@ -1,10 +1,5 @@
 import "./home-page.css";
 import { Fragment, h } from "preact";
-import { IconSend } from "../../components/icon/icon-send.tsx";
-import {
-  LMStudioConnection,
-  Model,
-} from "../../../platform/lmstudio/lmstudio.ts";
 import {
   rx,
   useViewModel,
@@ -16,7 +11,6 @@ import { useRouter } from "../../../platform/router/preact.tsx";
 import { Input } from "../../components/input/input.tsx";
 import { Select } from "../../components/select/select.tsx";
 import { Button } from "../../components/button/button.tsx";
-import { Icon } from "../../components/icon/icon.tsx";
 import { classNames } from "../../../platform/preact/class-names.ts";
 import { useInject } from "../../provider.ts";
 import { LMStudioService } from "../../services/lmstudio-service.ts";

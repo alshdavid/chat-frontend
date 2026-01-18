@@ -1,10 +1,9 @@
-import { useState, useRef, useEffect } from "preact/hooks";
-import { h } from "preact";
 import "./textarea.css";
+import { useRef, useEffect } from "preact/hooks";
+import { h } from "preact";
 
 export type TextareaProps = {
   onChange?: (value: string) => void;
-  onSubmit?: (value: string) => void;
   value?: string;
   defaultValue?: string;
   placeholder?: string;
@@ -12,98 +11,60 @@ export type TextareaProps = {
   disabled?: boolean;
 };
 
-export const Textarea = (props: TextareaProps) => {
-  const {
-    onChange,
-    onSubmit,
-    value,
-    defaultValue = "",
-    placeholder = "",
-    className = "",
-    disabled = false,
-  } = props;
-  const [isFocused, setIsFocused] = useState(false);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const isComposingRef = useRef(false);
-  const isControlled = value !== undefined;
+export const Textarea = ({
+  onChange,
+  value,
+  defaultValue,
+  placeholder,
+  className = "",
+  disabled = false,
+}: TextareaProps) => {
+  const editorRef = useRef<HTMLDivElement>(null);
+  const isFocused = useRef(false);
 
-  // Update content when value prop changes (controlled mode)
+  useEffect(() => {
+    if (editorRef.current) {
+      editorRef.current.innerText = value ?? defaultValue ?? "";
+    }
+  }, []);
+
   useEffect(() => {
     if (
-      isControlled &&
-      contentRef.current &&
-      contentRef.current.textContent !== value
+      editorRef.current &&
+      value !== undefined &&
+      value !== editorRef.current.innerText &&
+      !isFocused.current
     ) {
-      contentRef.current.textContent = value;
+      editorRef.current.innerText = value;
     }
-  }, [value, isControlled]);
+  }, [value]);
 
-  // Set initial content (uncontrolled mode)
-  useEffect(() => {
-    if (
-      !isControlled &&
-      contentRef.current &&
-      !contentRef.current.textContent
-    ) {
-      contentRef.current.textContent = defaultValue;
-    }
-  }, [defaultValue, isControlled]);
-
-  const handleInput = () => {
-    if (contentRef.current && onChange && !isComposingRef.current) {
-      onChange(contentRef.current.textContent || "");
+  const handleInput = (e: any) => {
+    const text = e.currentTarget.innerText;
+    if (onChange) {
+      onChange(text);
     }
   };
 
-  const handleCompositionStart = () => {
-    isComposingRef.current = true;
+  const handleBlur = () => {
+    isFocused.current = false;
   };
 
-  const handleCompositionEnd = () => {
-    isComposingRef.current = false;
-    handleInput();
+  const handleFocus = () => {
+    isFocused.current = true;
   };
-
-  const handleKeyDown = (e: KeyboardEvent) => {
-    // Check if Enter is pressed without Ctrl, Cmd, Shift, or Alt
-    // and not during IME composition
-    if (
-      e.key === "Enter" &&
-      !e.ctrlKey &&
-      !e.metaKey &&
-      !e.shiftKey &&
-      !e.altKey &&
-      !isComposingRef.current &&
-      onSubmit
-    ) {
-      e.preventDefault();
-      const currentValue = contentRef.current?.textContent || "";
-      onSubmit(currentValue);
-    }
-  };
-
-  const displayValue = isControlled
-    ? value
-    : contentRef.current?.textContent || "";
-  const showPlaceholder = !isFocused && !displayValue;
 
   return (
-    <div className={`textarea-component textarea-container ${className}`}>
-      {showPlaceholder && (
-        <div className="textarea-placeholder">{placeholder}</div>
-      )}
-      <div
-        ref={contentRef}
-        contentEditable={!disabled}
-        onInput={handleInput}
-        onKeyDown={handleKeyDown}
-        onCompositionStart={handleCompositionStart}
-        onCompositionEnd={handleCompositionEnd}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-        className={`textarea-editable ${disabled ? "textarea-disabled" : ""}`}
-        // suppressContentEditableWarning
-      />
-    </div>
+    <div
+      ref={editorRef}
+      contentEditable={!disabled}
+      onInput={handleInput}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
+      className={`textarea-component ${disabled ? "disabled" : ""} ${className}`}
+      role="textbox"
+      aria-multiline="true"
+      data-placeholder={placeholder}
+    />
   );
 };

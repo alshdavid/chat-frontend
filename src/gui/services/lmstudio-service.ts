@@ -1,4 +1,3 @@
-import { options } from "preact";
 import { TextField } from "../../platform/forms/text-field.ts";
 import {
   ChatCompletionOptions,
