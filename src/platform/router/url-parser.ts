@@ -1,4 +1,5 @@
 export function normalizePathname(baseHref: string, path: string): [string, string, string] {
+  console.log({ baseHref, path })
   // Normalize baseHref: remove trailing slash (unless it's just "/"), lowercase, default empty to "/"
   let normalizedBase: string;
   if (!baseHref || baseHref === '/') {
