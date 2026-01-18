@@ -87,6 +87,11 @@ export function ChatPage() {
   const lmStudioService = useInject(LMStudioService);
   const vm = useViewModel(ChatPageVm, [router, lmStudioService]);
 
+  function onInputInit(e: any) {
+    console.log(e);
+    setTimeout(() => e?.target?.click(), 1000);
+  }
+
   return (
     <Fragment>
       <nav className="navbar">
@@ -104,9 +109,12 @@ export function ChatPage() {
       </main>
       <footer className="chat-entry">
         <Textarea
+          ref={onInputInit}
+          onSubmit={() => vm.submit()}
           onChange={vm.draftText.update}
           value={vm.draftText.value}
           placeholder="Aa"
+          focusOnInit={true}
         />
         <button onClick={() => vm.submit()}>
           <Icon icon="send" height="24px" />
