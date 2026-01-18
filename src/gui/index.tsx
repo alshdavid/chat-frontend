@@ -8,17 +8,18 @@ import { NotFoundPage } from "./pages/not-found/not-found-page.tsx";
 import { Provider } from "./provider.ts";
 import { LMStudioService } from "./services/lmstudio-service.ts";
 
+// Services
 const provider = new Provider();
 
+const lmStudioService = new LMStudioService();
+provider.provide(LMStudioService, lmStudioService);
+
+// ClientSide SPA Router
 const app = new PreactRouter({
   root: document.body,
   baseHref: AUTO_BASE_HREF,
   providers: [<Provider.Provider value={provider} />],
 });
-
-const lmStudioService = new LMStudioService();
-
-provider.provide(LMStudioService, lmStudioService);
 
 app.mount("/", () => <HomePage />);
 app.mount("/chat/:id", () => <ChatPage />);
