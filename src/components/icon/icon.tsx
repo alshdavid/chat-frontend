@@ -9,6 +9,7 @@ import { IconBars } from "./bars.tsx";
 import { IconPenToSquare } from "./pen-to-square.tsx";
 import { IconBrand } from "./brand.tsx";
 import { IconChevronDown } from "./chevron-down.tsx";
+import { IconGear } from "./gear.tsx";
 
 export type IconProps = Omit<SVGAttributes<SVGSVGElement>, "children"> & {
   icon: keyof typeof IconsMap;
@@ -24,6 +25,7 @@ export const IconsMap = {
   "pen-to-square": IconPenToSquare,
   brand: IconBrand,
   "chevron-down": IconChevronDown,
+  gear: IconGear,
 } as const;
 
 export function Icon({ icon, ...props }: IconProps) {

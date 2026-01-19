@@ -27,10 +27,14 @@ export function ChatInput({
   ...props
 }: ChatInputProps) {
   const handleKeyDown = (e: KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey && !e.ctrlKey && !e.metaKey) {
-      e.preventDefault();
-      onSubmit?.();
-    }
+    // if (e.key === "Enter" && !e.shiftKey && !e.ctrlKey && !e.metaKey) {
+    //   e.preventDefault();
+    //   onSubmit?.();
+    // }
+    // if (e.key === "Enter") {
+    //   e.preventDefault();
+    //   onSubmit?.();
+    // }
   };
 
   return (
@@ -46,9 +50,9 @@ export function ChatInput({
       />
       <div className="controls">
         <div>
-          <Button>
+          {/* <Button>
             <Icon icon="plus" height="20px" />
-          </Button>
+          </Button> */}
         </div>
         <Button onClick={() => onSubmit?.()}>
           <Icon icon="send" height="20px" />
