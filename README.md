@@ -1,1 +1,1 @@
-[https://alshdavid.github.io/chat-frontend](https://alshdavid.github.io/chat-frontend)
+[https://openchat-lite.davidalsh.com](https://openchat-lite.davidalsh.com)
