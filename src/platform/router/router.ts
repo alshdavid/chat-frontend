@@ -62,9 +62,14 @@ export class Router {
   // route(regex: RegExp, handler: HandlerFunc): Router
   // route(paths: string[], handler: HandlerFunc): Router
   // route(path: string, handler: HandlerFunc<T>): Router
-  route(path: string, handler: HandlerFunc): Router {
-    const [, normalizedPath] = normalizePathname(this.#baseHref, path);
-    this.#routes.set(normalizedPath, handler);
+  route(path: string | Array<string>, handler: HandlerFunc): Router {
+    if (typeof path === "string") {
+      path = [path];
+    }
+    for (const p of path) {
+      const [, normalizedPath] = normalizePathname(this.#baseHref, p);
+      this.#routes.set(normalizedPath, handler);
+    }
     return this;
   }
 

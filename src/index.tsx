@@ -25,7 +25,7 @@ const app = new PreactRouter({
   providers: [<Provider.Provider value={provider} />],
 });
 
-app.mount("/", () => <HomePage />);
+app.mount(["/", "/index.html"], () => <HomePage />);
 app.mount("/chat/:id", () => <ChatPage />);
 app.mount("/**", () => <NotFoundPage />);
 

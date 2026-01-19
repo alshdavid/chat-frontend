@@ -35,7 +35,10 @@ export class PreactRouter extends Router {
     this.#routeEvents = new EventTarget();
   }
 
-  mount(path: string, Element: (props: { req: Req }) => ComponentChild) {
+  mount(
+    path: string | Array<string>,
+    Element: (props: { req: Req }) => ComponentChild,
+  ) {
     return this.route(path, (req) => {
       this.#root.setAttribute("data-route", req.routePattern);
       this.#routeEvents.dispatchEvent(
