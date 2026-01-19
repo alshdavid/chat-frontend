@@ -10,7 +10,7 @@ export function subscribe(
   callback: () => any | Promise<any>,
 ): () => void {
   target.addEventListener("change", callback);
-  const extras = new Set<EventTarget>();
+  const extras = new Set<() => any>();
 
   if ((target as Record<string | symbol, any>)[ON_CHANGE]) {
     for (const value of Object.values(
@@ -19,8 +19,8 @@ export function subscribe(
       if (!(value instanceof EventTarget)) {
         continue;
       }
-      extras.add(value);
-      value.addEventListener("change", callback);
+
+      extras.add(subscribe(value, callback));
     }
   }
 
@@ -29,7 +29,7 @@ export function subscribe(
   return () => {
     target.removeEventListener("change", callback);
     for (const extra of extras.values()) {
-      extra.removeEventListener("change", callback);
+      extra();
     }
     if (target.onDestroy) target.onDestroy();
   };

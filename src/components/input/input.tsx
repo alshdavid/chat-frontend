@@ -7,17 +7,7 @@ export type InputProps = InputHTMLAttributes<HTMLInputElement> & {
 };
 
 export function Input({ className, onEnter, ...props }: InputProps) {
-  function onKeyPress(ev: KeyboardEvent) {
-    if (onEnter && ev.key === "Enter") {
-      onEnter(ev);
-    }
-  }
-
   return (
-    <input
-      {...props}
-      onKeyPress={onKeyPress}
-      className={classNames("component-input", className)}
-    />
+    <input {...props} className={classNames("component-input", className)} />
   );
 }
