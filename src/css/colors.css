@@ -276,6 +276,7 @@
   --color-grey-700: #616161;
   --color-grey-800: #424242;
   --color-grey-900: #212121;
+  --color-grey-1000: #111111;
 
   --color-blue-grey-50: #eceff1;
   --color-blue-grey-100: #cfd8dc;
@@ -285,7 +286,7 @@
   --color-blue-grey-500: #607d8b;
   --color-blue-grey-600: #546e7a;
   --color-blue-grey-700: #455a64;
-  --color-blue-grey-800: #37474f;
+  --color-blue-grey-800: #37474f; 
   --color-blue-grey-900: #263238;
 
   --color-black: #000;

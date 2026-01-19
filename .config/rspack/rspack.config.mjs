@@ -17,8 +17,7 @@ export default defineConfig({
     outputModule: true,
   },
   entry: {
-    index: "./src/gui/index.tsx",
-    worker: "./src/worker/main.ts",
+    index: "./src/index.tsx",
   },
   output: {
     filename: "[name].[contenthash].js",
@@ -84,7 +83,12 @@ export default defineConfig({
         type: "javascript/auto",
       },
       {
+        resourceQuery: /type=raw/i,
+        type: "asset/source", 
+      },
+      {
         test: /\.css$/i,
+        resourceQuery: { not: [/raw/] },
         use: [rspack.CssExtractRspackPlugin.loader, "css-loader"],
         type: "javascript/auto",
       },
@@ -94,11 +98,23 @@ export default defineConfig({
     new DeleteDirectoryPlugin({
       directory: path.join(root, "dist"),
     }),
+    new rspack.CopyRspackPlugin({
+      patterns: [
+        {
+          from: "src/manifest.json",
+          to: "manifest.json",
+        },
+        {
+          from: "src/favicon.svg",
+          to: "favicon.svg",
+        },
+      ],
+    }),
     new HtmlPlugin({
       minify: false,
       filename: "index.html",
       spaFallback: "404.html",
-      template: "src/gui/index.html",
+      template: "src/index.html",
       inject: "head",
       baseHref,
     }),

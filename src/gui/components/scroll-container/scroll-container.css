@@ -1,8 +1,0 @@
-.component-scroll-container {
-  overflow-y: scroll;
-  transform: rotateX(180deg);
-
-  & > * {
-    transform: rotateX(180deg);
-  }
-}
